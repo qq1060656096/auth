@@ -1,7 +1,9 @@
 package token
 
+import "encoding/json"
+
 type Token struct {
-	Repository   Repository
+	Repository   Repository `json:"-"`
 	AccessToken  string `json:"access_token"`
 	Type    string `json:"token_type"`
 	RefreshToken string `json:"refresh_token"`
@@ -55,4 +57,9 @@ func (t *Token) Refresh(refreshToken string) (newToken *Token, err error) {
 
 func (t *Token) Validate(token string) (data *Data, err error) {
 	return t.Repository.Validate(token)
+}
+
+func (t *Token) String() string {
+	bytes, _ := json.Marshal(t)
+	return string(bytes)
 }

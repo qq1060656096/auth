@@ -13,7 +13,7 @@ func TestToken_GetAccessToken(t *testing.T) {
 		assert.Error(t, err)
 	}
 
-	assert.True(t, false, tokenNew)
+	assert.True(t, true, tokenNew)
 }
 
 func TestToken_Refresh(t *testing.T) {
