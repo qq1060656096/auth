@@ -2,10 +2,9 @@ package token
 
 import "encoding/json"
 
-func CreateApiToken(expires int64, signingKey string) (jsonStr string, err error) {
+func CreateApiToken(expires int64, signingKey string, data interface{}) (jsonStr string, err error) {
 	token := NewBearerJwtToken(expires, signingKey)
 	apiTokenMap := make(map[string]interface{})
-	data := "user.id.1"
 	tokenStr, err := token.Get(data)
 	if err != nil {
 		// error todo
@@ -29,7 +28,7 @@ func CreateApiToken(expires int64, signingKey string) (jsonStr string, err error
 	return string(jsonBytes), nil
 }
 
-func RefreshApiToken(refreshTokenStr string, expires int64, signingKey string) (newRefreshTokenStr string, err error) {
+func RefreshApiToken(expires int64, signingKey string, refreshTokenStr string) (newRefreshTokenStr string, err error) {
 	token := NewBearerJwtToken(expires, signingKey)
 	apiTokenMap := make(map[string]interface{})
 	newRefreshTokenStr, err = token.Refresh(refreshTokenStr)

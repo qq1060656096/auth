@@ -5,44 +5,45 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/qq1060656096/token"
 )
 
 func main()  {
-	expires := int64(2862226989)
+	var expires int64 = 7200000000
 	signingKey := "123456"
-	token := token.NewBearerJwtToken(expires, signingKey)
-	apiTokenMap := make(map[string]interface{})
-	data := "user.id.1"
-	tokenStr, err := token.Get(data)
+	data := "api token data"
+	// 创建token
+	jsonStr, err := token.CreateApiToken(expires, signingKey, data)
 	if err != nil {
 		// error todo
 	}
-	refreshTokenStr, err := token.GetRefresh(data)
-	if err != nil {
-		// error todo
-	}
-
-	apiTokenMap["access_token"] = tokenStr
-	apiTokenMap["token_type"] = token.GetType()
-	apiTokenMap["expires_in"] = token.GetExpires()
-	apiTokenMap["refresh_token"] = refreshTokenStr
-	jsonStr, err := json.Marshal(apiTokenMap)
-	if err != nil {
-		// error todo
-	}
-
-	fmt.Println(string(jsonStr))
+	fmt.Println("CreateApiToken", jsonStr)
 	/**
-	  {
-	      "access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjI4NjIyMjY5ODksImlzcyI6ImV5SlNZWGRFWVhSaElqb2lkWE5sY2k1cFpDNHhJaXdpVkc5clpXNVVlWEJsSWpvaVFtVmhjbVZ5SWl3aVZHbHRaWE4wWVcxd0lqb3hOakF3TURBNU9USXpMQ0pGZUhCcGNtVnpJam95T0RZeU1qSTJPVGc1TENKU1pXWnlaWE5vSWpwbVlXeHpaU3dpVTJsbmJtRjBkWEpsSWpvaUluMD0uUjBaQlp6bDBXWEpoYm14S1J6UllTbWwyWTB4ZlUyVTFlbXRoT1VKbE9FNXVkREpEVW5GMGExVkhRUT09In0.ZwSwy7LFsRd7DpWZ9v_o09wXisZoqmAzo2YvdaLVG0w",
-	      "expires_in":2862226989,
-	      "refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjI4NjIyMjY5ODksImlzcyI6ImV5SlNZWGRFWVhSaElqb2lkWE5sY2k1cFpDNHhJaXdpVkc5clpXNVVlWEJsSWpvaVFtVmhjbVZ5SWl3aVZHbHRaWE4wWVcxd0lqb3hOakF3TURBNU9USXpMQ0pGZUhCcGNtVnpJam95T0RZeU1qSTJPVGc1TENKU1pXWnlaWE5vSWpwMGNuVmxMQ0pUYVdkdVlYUjFjbVVpT2lJaWZRPT0uTVZWWlMySjBhMlZPUm5ZM01tOTZObVZvWDNWTlRHTldiMlpwY2pWd05HTXRSRTQwVjI1QlJXbEhOQT09In0.l2WQwypvE-RhrG6KZK_eO5Yp0JRiAJMbSjbq1Qxlib8",
-	      "token_type":"Bearer"
-	  }
-	*/
-}
+	CreateApiToken
+	{
+	    "access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjcyMDAwMDAwMDAsImlzcyI6ImV5SlNZWGRFWVhSaElqb2lZWEJwSUhSdmEyVnVJR1JoZEdFaUxDSlViMnRsYmxSNWNHVWlPaUpDWldGeVpYSWlMQ0pVYVcxbGMzUmhiWEFpT2pFMk1EQXdOREEwTkRNc0lrVjRjR2x5WlhNaU9qY3lNREF3TURBd01EQXNJbEpsWm5KbGMyZ2lPbVpoYkhObExDSlRhV2R1WVhSMWNtVWlPaUlpZlE9PS5SaTF6WXpabU9WQlBSR1JPY2tWVlVHeHlhM0JtU3pGa1EyZFRkMVZpV0RsdGFuUkNOMWswTkVoWFdRPT0ifQ.YKLDHu48xq8hguGexDKOtbxK2m5fYpBsFNcfuToSxwI",
+	    "expires_in":7200000000,
+	    "refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjcyMDAwMDAwMDAsImlzcyI6ImV5SlNZWGRFWVhSaElqb2lZWEJwSUhSdmEyVnVJR1JoZEdFaUxDSlViMnRsYmxSNWNHVWlPaUpDWldGeVpYSWlMQ0pVYVcxbGMzUmhiWEFpT2pFMk1EQXdOREEwTkRNc0lrVjRjR2x5WlhNaU9qY3lNREF3TURBd01EQXNJbEpsWm5KbGMyZ2lPblJ5ZFdVc0lsTnBaMjVoZEhWeVpTSTZJaUo5LlYwc3RRbWxvUlVWelNEZzNZVU0wY1VKd1oyUnhlbmR3TFhWbVFVaGhabWhOZUhWdGRHOTZTVXd3Wnc9PSJ9.YNWtDodFyjKes2FQBl2SATK6G3OEdLYQFly8ReQ1JHg",
+	    "token_type":"Bearer"
+	}
+	 */
 
+	// 刷新token
+	refreshTokenStr := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjcyMDAwMDAwMDAsImlzcyI6ImV5SlNZWGRFWVhSaElqb2lZWEJwSUhSdmEyVnVJR1JoZEdFaUxDSlViMnRsYmxSNWNHVWlPaUpDWldGeVpYSWlMQ0pVYVcxbGMzUmhiWEFpT2pFMk1EQXdOREEwTkRNc0lrVjRjR2x5WlhNaU9qY3lNREF3TURBd01EQXNJbEpsWm5KbGMyZ2lPblJ5ZFdVc0lsTnBaMjVoZEhWeVpTSTZJaUo5LlYwc3RRbWxvUlVWelNEZzNZVU0wY1VKd1oyUnhlbmR3TFhWbVFVaGhabWhOZUhWdGRHOTZTVXd3Wnc9PSJ9.YNWtDodFyjKes2FQBl2SATK6G3OEdLYQFly8ReQ1JHg"
+	jsonStr, err = token.RefreshApiToken(expires, signingKey, refreshTokenStr)
+	if err != nil {
+		// error todo
+	}
+	fmt.Println("RefreshApiToken", jsonStr)
+	/**
+	RefreshApiToken
+	{
+	    "access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjcyMDAwMDAwMDAsImlzcyI6ImV5SlNZWGRFWVhSaElqb2lZWEJwSUhSdmEyVnVJR1JoZEdFaUxDSlViMnRsYmxSNWNHVWlPaUpDWldGeVpYSWlMQ0pVYVcxbGMzUmhiWEFpT2pFMk1EQXdOREExTXpFc0lrVjRjR2x5WlhNaU9qY3lNREF3TURBd01EQXNJbEpsWm5KbGMyZ2lPblJ5ZFdVc0lsTnBaMjVoZEhWeVpTSTZJaUo5LmRYaE5NR3BWUTIxelJqZDBTVlJJWHpoblprMTZSMmxUYkdOMmRFRm9SMHMzYVhkYVUzWjVVelpCWXc9PSJ9.-z33MwAwXFd-GXQnZgWj5JPBujya5zOlngrFJinV9UE",
+	    "expires_in":7200000000,
+	    "refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjcyMDAwMDAwMDAsImlzcyI6ImV5SlNZWGRFWVhSaElqb2lZWEJwSUhSdmEyVnVJR1JoZEdFaUxDSlViMnRsYmxSNWNHVWlPaUpDWldGeVpYSWlMQ0pVYVcxbGMzUmhiWEFpT2pFMk1EQXdOREEwTkRNc0lrVjRjR2x5WlhNaU9qY3lNREF3TURBd01EQXNJbEpsWm5KbGMyZ2lPblJ5ZFdVc0lsTnBaMjVoZEhWeVpTSTZJaUo5LlYwc3RRbWxvUlVWelNEZzNZVU0wY1VKd1oyUnhlbmR3TFhWbVFVaGhabWhOZUhWdGRHOTZTVXd3Wnc9PSJ9.YNWtDodFyjKes2FQBl2SATK6G3OEdLYQFly8ReQ1JHg",
+	    "token_type":"Bearer"
+	}
+	 */
+}
 ```
