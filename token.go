@@ -1,65 +1,57 @@
 package token
 
-import "encoding/json"
+import "time"
 
-type Token struct {
-	Repository   Repository `json:"-"`
-	AccessToken  string `json:"access_token"`
-	Type    string `json:"token_type"`
-	RefreshToken string `json:"refresh_token"`
-	Expires    int64  `json:"expires_in"`
+type token struct {
+	Tokener
+	decoder   Decoder
+	tokenType string
+	expires   int64
 }
 
-
-func New(tokenType string, expires int64) *Token {
-	return &Token{
-		Type: tokenType,
-		Expires: expires,
-	}
+func (t *token) GetDecoder() Decoder {
+	return t.decoder
 }
 
-func (t *Token) GetAccessToken(data interface{}) (token *Token, err error){
-	tokenData := NewData(data, t.Type, t.Expires)
-	accessToken, err := t.Repository.Encode(tokenData)
-	if err != nil {
-		return
-	}
-	refreshTokenData := NewRefreshData(data, t.Type, t.Expires)
-	refreshToken, err := t.Repository.Encode(refreshTokenData)
-	if err != nil {
-		return
-	}
-	token = New(t.Type, t.Expires)
-	token.AccessToken = accessToken
-	token.RefreshToken = refreshToken
-	return
+func (t *token) GetType() string {
+	return t.tokenType
 }
 
-func (t *Token) Refresh(refreshToken string) (newToken *Token, err error) {
-	refreshTokenData, err := t.Repository.Validate(refreshToken)
-	if err != nil {
-		return
-	}
-	refreshTokenNew, err := t.Repository.Encode(refreshTokenData)
-	if err != nil {
-		return
-	}
-	tokenData := NewData(refreshTokenData.RawData, refreshTokenData.Type, refreshTokenData.Expires)
-	accessToken, err := t.Repository.Encode(tokenData)
-	if err != nil {
-		return
-	}
-	token := New(t.Type, t.Expires)
-	token.AccessToken = accessToken
-	token.RefreshToken = refreshTokenNew
-	return
+func (t *token) GetExpires() int64 {
+	return t.expires
 }
 
-func (t *Token) Validate(token string) (data *Data, err error) {
-	return t.Repository.Validate(token)
+func (t *token) Get(data interface{}) (token string, error error) {
+	time.Now().Unix()
+	d := NewData(data, t.GetType(), t.GetExpires())
+	return t.GetDecoder().Encode(d)
 }
 
-func (t *Token) String() string {
-	bytes, _ := json.Marshal(t)
-	return string(bytes)
+func (t *token) GetRefresh(data interface{}) (newRefreshToken string, error error) {
+	time.Now().Unix()
+	d := NewData(data, t.GetType(), t.GetExpires())
+	d.Refresh = true
+	return t.GetDecoder().Encode(d)
+}
+
+func (t *token) Refresh(refreshToken string) (newRefreshToken string, err error) {
+	data, err := t.GetDecoder().Decode(refreshToken)
+	if err != nil {
+		return "", err
+	}
+	data.Timestamp = time.Now().Unix()
+	data.Refresh = true
+	return t.GetDecoder().Encode(data)
+}
+
+func (t *token) Validate(token string) (data *Data, err error) {
+	return t.GetDecoder().Decode(token)
+}
+
+func NewToken(decoder Decoder, expires int64) *token {
+	return &token{
+		decoder:   decoder,
+		tokenType: decoder.GetTokenType(),
+		expires:   expires,
+	}
 }

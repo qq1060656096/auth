@@ -1,8 +1,7 @@
 package token
 
-type Repository interface {
+type Decoder interface {
+	GetTokenType() string
 	Encode(data *Data) (token string, err error)
 	Decode(token string) (data *Data, err error)
-	Validate(token string) (data *Data, err error)
-	Signature(data *Data) string
 }
