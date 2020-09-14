@@ -5,7 +5,6 @@ import (
 	"log"
 )
 
-
 func ExampleNewBearerJwtToken() {
 	expires := int64(2862226989)
 	signingKey := "123456"
@@ -37,5 +36,5 @@ func ExampleNewBearerJwtToken() {
 	    "refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjI4NjIyMjY5ODksImlzcyI6ImV5SlNZWGRFWVhSaElqb2lkWE5sY2k1cFpDNHhJaXdpVkc5clpXNVVlWEJsSWpvaVFtVmhjbVZ5SWl3aVZHbHRaWE4wWVcxd0lqb3hOakF3TURBNU9USXpMQ0pGZUhCcGNtVnpJam95T0RZeU1qSTJPVGc1TENKU1pXWnlaWE5vSWpwMGNuVmxMQ0pUYVdkdVlYUjFjbVVpT2lJaWZRPT0uTVZWWlMySjBhMlZPUm5ZM01tOTZObVZvWDNWTlRHTldiMlpwY2pWd05HTXRSRTQwVjI1QlJXbEhOQT09In0.l2WQwypvE-RhrG6KZK_eO5Yp0JRiAJMbSjbq1Qxlib8",
 	    "token_type":"Bearer"
 	}
-	 */
+	*/
 }

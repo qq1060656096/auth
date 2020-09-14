@@ -11,7 +11,7 @@ import (
 	"github.com/qq1060656096/token"
 )
 
-func main()  {
+func main() {
 	var expires int64 = 7200000000
 	signingKey := "123456"
 	data := "api token data"
@@ -33,7 +33,7 @@ func main()  {
 	    "expires_in":7200000000,
 	    "refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjcyMDAwMDAwMDAsImlzcyI6ImV5SlNZWGRFWVhSaElqb2lZWEJwSUhSdmEyVnVJR1JoZEdFaUxDSlViMnRsYmxSNWNHVWlPaUpDWldGeVpYSWlMQ0pVYVcxbGMzUmhiWEFpT2pFMk1EQXdPVEV4Tnpnc0lrVjRjR2x5WlhNaU9qY3lNREF3TURBd01EQXNJbEpsWm5KbGMyZ2lPblJ5ZFdVc0lsTnBaMjVoZEhWeVpTSTZJaUo5LlJucEJXR05KVFcxeloweEtkSGcwU0V4S04wZGljMDV4YkRsYVlsUlFlWEZyVm1OamFFZzVNVkppZHc9PSJ9.xnp-jINwlu42Ty1UDUAJjJVHQcCebMJENAj_juNn5DI"
 	}
-	 */
+	*/
 
 	// 刷新token
 	refreshTokenStr := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjcyMDAwMDAwMDAsImlzcyI6ImV5SlNZWGRFWVhSaElqb2lZWEJwSUhSdmEyVnVJR1JoZEdFaUxDSlViMnRsYmxSNWNHVWlPaUpDWldGeVpYSWlMQ0pVYVcxbGMzUmhiWEFpT2pFMk1EQXdPVEV4Tnpnc0lrVjRjR2x5WlhNaU9qY3lNREF3TURBd01EQXNJbEpsWm5KbGMyZ2lPblJ5ZFdVc0lsTnBaMjVoZEhWeVpTSTZJaUo5LlJucEJXR05KVFcxeloweEtkSGcwU0V4S04wZGljMDV4YkRsYVlsUlFlWEZyVm1OamFFZzVNVkppZHc9PSJ9.xnp-jINwlu42Ty1UDUAJjJVHQcCebMJENAj_juNn5DI"
@@ -54,6 +54,7 @@ func main()  {
 	    "expires_in":7200000000,
 	    "refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjcyMDAwMDAwMDAsImlzcyI6ImV5SlNZWGRFWVhSaElqb2lZWEJwSUhSdmEyVnVJR1JoZEdFaUxDSlViMnRsYmxSNWNHVWlPaUpDWldGeVpYSWlMQ0pVYVcxbGMzUmhiWEFpT2pFMk1EQXdPVEV5TnpNc0lrVjRjR2x5WlhNaU9qY3lNREF3TURBd01EQXNJbEpsWm5KbGMyZ2lPblJ5ZFdVc0lsTnBaMjVoZEhWeVpTSTZJaUo5LloyWmhhRFZGZDJReVJIbGtRMnB1TFZOT2EwdDNSelpqUzFrMGNqbHZialpTWm1JNWNGTXhaRWx0WXc9PSJ9.EeOnpLZXZ47cAYVxdView7ifJuIGEdSLyjpC8pTmH4c"
 	}
-	 */
+	*/
 }
+
 ```
