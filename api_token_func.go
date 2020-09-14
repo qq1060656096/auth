@@ -1,10 +1,15 @@
 package token
 
-import "encoding/json"
+type ApiTokenData struct {
+	AccessToken string `json:"access_token"`
+	TokenType string `json:"token_type"`
+	ExpiresIn int64 `json:"expires_in"`
+	RefreshToken string `json:"refresh_token"`
+}
 
-func CreateApiToken(expires int64, signingKey string, data interface{}) (jsonStr string, err error) {
+func CreateApiToken(expires int64, signingKey string, data interface{}) (td *ApiTokenData, err error) {
+
 	token := NewBearerJwtToken(expires, signingKey)
-	apiTokenMap := make(map[string]interface{})
 	tokenStr, err := token.Get(data)
 	if err != nil {
 		// error todo
@@ -15,35 +20,33 @@ func CreateApiToken(expires int64, signingKey string, data interface{}) (jsonStr
 		// error todo
 		return
 	}
-
-	apiTokenMap["access_token"] = tokenStr
-	apiTokenMap["token_type"] = token.GetType()
-	apiTokenMap["expires_in"] = token.GetExpires()
-	apiTokenMap["refresh_token"] = refreshTokenStr
-	jsonBytes, err := json.Marshal(apiTokenMap)
-	if err != nil {
-		// error todo
-		return
+	td = &ApiTokenData{
+		AccessToken:  tokenStr,
+		TokenType:    token.GetType(),
+		ExpiresIn:    token.GetExpires(),
+		RefreshToken: refreshTokenStr,
 	}
-	return string(jsonBytes), nil
+	return td, nil
 }
 
-func RefreshApiToken(expires int64, signingKey string, refreshTokenStr string) (newRefreshTokenStr string, err error) {
+func RefreshApiToken(expires int64, signingKey string, refreshTokenStr string) (td *ApiTokenData, err error) {
 	token := NewBearerJwtToken(expires, signingKey)
-	apiTokenMap := make(map[string]interface{})
-	newRefreshTokenStr, err = token.Refresh(refreshTokenStr)
+	data, err := token.Validate(refreshTokenStr)
+	if err != nil {
+		return
+	}
+	tokenStr, err := token.Get(data)
+
+	newRefreshTokenStr, err := token.Refresh(refreshTokenStr)
 	if err != nil {
 		// error todo
 		return
 	}
-	apiTokenMap["access_token"] = newRefreshTokenStr
-	apiTokenMap["token_type"] = token.GetType()
-	apiTokenMap["expires_in"] = token.GetExpires()
-	apiTokenMap["refresh_token"] = refreshTokenStr
-	jsonBytes, err := json.Marshal(apiTokenMap)
-	if err != nil {
-		// error todo
-		return
+	td = &ApiTokenData{
+		AccessToken:  tokenStr,
+		TokenType:    token.GetType(),
+		ExpiresIn:    token.GetExpires(),
+		RefreshToken: newRefreshTokenStr,
 	}
-	return string(jsonBytes), nil
+	return td, nil
 }
